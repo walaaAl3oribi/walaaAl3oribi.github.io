@@ -1,0 +1,101 @@
+body {
+    background-color: #edead0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#L-light,
+#R-light {
+    animation: light 2s infinite;
+    animation-timing-function: ease-in-out
+}
+
+#L-eye-open {
+    animation: L-blink 2s infinite;
+    animation-timing-function: ease-in
+}
+
+#R-eye-open {
+    animation: R-blink 2s infinite;
+    animation-timing-function: ease-in
+}
+
+#everything {
+    transform-origin: bottom center;
+    animation-timing-function: ease-in-out;
+    animation-delay: 2s;
+}
+
+.light-shadow {
+    display: none;
+    animation-timing-function: ease-in;
+    animation: light-shadow 1s infinite;
+}
+
+#letters-wide-sound {
+    animation: talking 1s infinite;
+    animation-delay: 3s;
+}
+
+#dots {
+    display: none;
+}
+
+@keyframes L-blink {
+    10% {
+        d: path("M696.16,590a43.41,43.41,0,0,0,43.36-43.36,7.39,7.39,0,0,0-14.77,0,28.59,28.59,0,1,1-57.17,0,7.39,7.39,0,0,0-14.78,0A43.41,43.41,0,0,0,696.16,590Z");
+    }
+    20% {
+        d: path("M739.52,542.12a43,43,0,1,1-43-43A43,43,0,0,1,739.52,542.12Z");
+    }
+}
+
+@keyframes R-blink {
+    10% {
+        d: path("M1236.16,590a43.41,43.41,0,0,0,43.36-43.36,7.39,7.39,0,0,0-14.77,0,28.59,28.59,0,1,1-57.17,0,7.39,7.39,0,0,0-14.78,0A43.41,43.41,0,0,0,1236.16,590Z");
+    }
+    20% {
+        d: path("M1279.09,542.12a43,43,0,1,1-43-43A43,43,0,0,1,1279.09,542.12Z");
+    }
+}
+
+@keyframes head-rotation {
+    20% {
+        transform: rotate(5deg);
+    }
+    50% {
+        transform: rotate(0deg);
+    }
+    70% {
+        transform: rotate(-5deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes light {
+    from {
+        fill: #ef959c
+    }
+    to {}
+}
+
+@keyframes light-shadow {
+    20% {
+        opacity: 0;
+    }
+}
+
+@keyframes talking {
+    30% {
+        d: path("M902.18,711H1018.5c6.16,0,11.17,3.86,10.69,8.41-.8,7.53-7.62,18.77-36.65,28-24.39,7.73-52.19,7.62-76-1.08-12.83-4.69-24.44-11.82-27.95-22.58C886.5,717.23,893.2,711,902.18,711Z");
+    }
+    60% {
+        d: path("M909,707h105.93a9.69,9.69,0,0,1,9.73,10.32c-.73,9.24-6.93,23-33.38,34.31C969,761.1,943.7,761,922,750.3c-11.69-5.76-22.26-14.51-25.45-27.7A12.67,12.67,0,0,1,909,707Z");
+    }
+    90% {
+        d: path("M906.09,721h107.25c5.68,0,10.29,2.2,9.85,4.81-.74,4.3-7,10.72-33.79,16-22.48,4.41-48.12,4.35-70-.62-11.83-2.69-22.53-6.76-25.77-12.91C891.63,724.56,897.81,721,906.09,721Z");
+    }
+}
