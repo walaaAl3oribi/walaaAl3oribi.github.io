@@ -1,4 +1,18 @@
+var width = $(window).width();
+var height = $(window).height();
+
+if (height > width) {
+    alert('Please flip your phone');
+}
+
+
 $(document).ready(function() {
+
+    $(document).resize(function() {
+        if (height > width) {
+            alert('Please flip your phone');
+        }
+    });
 
     document.getElementById("display").style.display = "BLOCK";
     document.getElementById("eyes").style.display = "NONE";
@@ -102,11 +116,10 @@ $(document).ready(function() {
     }
 
     function speak(text) {
-        //var speech = new SpeechSynthesisUtterance();
-        var voices = window.speechSynthesis.getVoices();
-        speech.voice = voices[5];
+
+        speech.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == "Microsoft Zira - English (United States)" })[0];
         speech.lang = 'en-US';
-        speech.pitch = 1;
+        speech.pitch = 1.8;
 
         if (text.includes('time')) {
             speech.text = 'It is ' + new Date().getHours() + " " + new Date().getMinutes() + " right now";
