@@ -1,18 +1,4 @@
-var width = $(window).width();
-var height = $(window).height();
-
-if (height > width) {
-    alert('Please flip your phone');
-}
-
-
 $(document).ready(function() {
-
-    $(document).resize(function() {
-        if (height > width) {
-            alert('Please flip your phone');
-        }
-    });
 
     document.getElementById("display").style.display = "BLOCK";
     document.getElementById("eyes").style.display = "NONE";
@@ -30,28 +16,13 @@ $(document).ready(function() {
     document.getElementById("R-eye-closed").style.display = "none";
 
 
-    function talk(msg) {
-        const arr = msg.split('');
-        console.log(arr);
-
-        for (var i = 0; i < arr.length; i++) {
-            console.log(arr[i]);
-            if (arr[i].includes("o")) {
-                document.getElementById("o-sound").style.display = "block";
-                document.getElementById("smile").style.display = "none";
-            }
-        }
-    }
-
-
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
 
     var speech = new SpeechSynthesisUtterance();
-
-
-
-
+    speech.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == "Microsoft Zira - English (United States)" })[0];
+    speech.lang = 'en-US';
+    speech.pitch = 1.8;
 
 
     $('body').bind('keypress', function(e) {
@@ -90,9 +61,9 @@ $(document).ready(function() {
     function read(text) {
 
         speech.text = text;
-        speech.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == "Microsoft Zira - English (United States)" })[0];
-        speech.lang = 'en-US';
-        speech.pitch = 1.8;
+        //speech.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == "Microsoft Zira - English (United States)" })[0];
+        //speech.lang = 'en-US';
+        //speech.pitch = 1.8;
 
         console.log(speech.voice);
         window.speechSynthesis.speak(speech);
@@ -101,7 +72,6 @@ $(document).ready(function() {
             console.log("s");
             startTalkingAnimation();
         };
-
 
         speech.onend = function() {
             console.log("e");
@@ -117,9 +87,10 @@ $(document).ready(function() {
 
     function speak(text) {
 
-        speech.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == "Microsoft Zira - English (United States)" })[0];
-        speech.lang = 'en-US';
-        speech.pitch = 1.8;
+        speech.text = text;
+        //speech.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == "Microsoft Zira - English (United States)" })[0];
+        //speech.lang = 'en-US';
+        //speech.pitch = 1.8;
 
         if (text.includes('time')) {
             speech.text = 'It is ' + new Date().getHours() + " " + new Date().getMinutes() + " right now";
@@ -128,8 +99,6 @@ $(document).ready(function() {
             speech.text = 'Nice to meet you ' + newText;
         } else if (text.includes('love me')) {
             speech.text = 'Of course, not! You piece of junk!';
-        } else {
-            speech.text = text;
         }
         window.speechSynthesis.speak(speech);
 
