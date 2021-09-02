@@ -1,130 +1,250 @@
+var allAnimals = ["elephant", "fish", "goat", "horse", "jellyfish", "ladybug", "sheep", "lion", "mouse", "owl", "pig", "rabbit", "tiger", "whale", "worm", "zebra", "rhinoceros", "kangaroo", "giraffe", "snail", "fox"];
+var animalsArr = [];
+var score = 0;
+var ans;
+
+var randomT;
+var randomAnimal;
+
+
+for (i = 0; i < allAnimals.length; i++) {
+    animalsArr.push(allAnimals[i]);
+}
+
+
 $(document).ready(function() {
 
-    document.getElementById("display").style.display = "BLOCK";
-    document.getElementById("eyes").style.display = "NONE";
-    document.getElementById("mouth").style.display = "NONE";
+    var btnSound = new Audio('sounds/buttonsound.mp3');
+    var wrongSound = new Audio('sounds/wrongsound.mp3');
+    var correctSound = new Audio('sounds/correctsound.mp3');
+    var losesound = new Audio('sounds/losesound.mp3');
+    var winsound = new Audio('sounds/winsound.mp3');
+
+    //timer
+
+    var timer;
+    var time = 30;
+    var timeLeft = time; // seconds
 
 
-    document.getElementById("smile").style.display = "none";
-    document.getElementById("letters-sound").style.display = "none";
-    document.getElementById("e-sound").style.display = "none";
-    document.getElementById("o-sound").style.display = "none";
+    $("#start").click(function() {
+        btnSound.play();
 
-    document.getElementById("L-eye-happy").style.display = "none";
-    document.getElementById("R-eye-happy").style.display = "none";
-    document.getElementById("L-eye-closed").style.display = "none";
-    document.getElementById("R-eye-closed").style.display = "none";
+        setTimeout(
+            function() {
+                $("#homepage").addClass("hide");
+                $("#control").removeClass("hide");
+                $("#gamepage").removeClass("hide");
+
+                setTimeout(
+                    function() {
+
+                        changeAnimal();
+
+                        setTimeout(
+                            function() {
+
+                                // setInterval is a built-in function that will call the given function
+                                // every N milliseconds (1 second = 1000 ms)
+                                timer = window.setInterval(updateTimer, 1000);
+
+                                // It will be a whole second before the time changes, so we'll call the update
+                                // once ourselves
+                                updateTimer();
+
+                                // We don't want the to be able to restart the timer while it is running,
+                                // so hide the button.
+                            }, 1000);
+
+                    }, 1000);
+
+            }, 1000);
 
 
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-
-    var speech = new SpeechSynthesisUtterance();
-    speech.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == "Microsoft Zira - English (United States)" })[0];
-    speech.lang = 'en-US';
-    speech.pitch = 1.8;
 
 
-    $('body').bind('keypress', function(e) {
-        if (e.which == 32) { //space bar
-            recognition.start();
-            console.log('start recording...');
+    });
+
+    function updateTimer() {
+        timeLeft = timeLeft - 1;
+        if (timeLeft >= 0) {
+            //$('#timer').html(timeLeft);
+            console.log(timeLeft);
+
+            var num = timeLeft / time;
+            var per = num * 100;
+            var perleft = 100 - per;
+
+            $("#timer").css('width', perleft + '%');
+
+        } else {
+            gameOver();
         }
+    }
+
+    // What to do when the timer runs out
+    function gameOver() {
+        // This cancels the setInterval, so the updateTimer stops getting called
+        clearInterval(timer);
+
+        // re-show the button, so they can start it again
+        animalsArr.length = 0;
+        changeAnimal();
+    }
+
+
+    $("#replay").click(function() {
+        btnSound.play();
+        location.reload();
+    });
+
+    // must have 2 randoms: one that picks the right answer and image - other picks a wrong answer
+
+    function changeAnimal() {
+
+        if (animalsArr.length === 0) {
+
+
+            if (score > 0) {
+                winsound.play();
+            } else {
+                losesound.play();
+            }
+            $('#scorepage>h1').text("score = " + score);
+            //alert("score = " + score);
+
+            $("#scorepage").removeClass("hide");
+            $("#homepage").addClass("hide");
+            $("#control").addClass("hide");
+            $("#gamepage").addClass("hide");
+
+        } else {
+            randomT = Math.floor(Math.random() * animalsArr.length) + 0;
+            var animal = animalsArr[randomT];
+
+            console.log(animalsArr);
+
+            var randomR = Math.floor(Math.random() * allAnimals.length) + 0;
+            randomAnimal = allAnimals[randomR];
+
+            read(randomAnimal);
+            $("#image").attr("src", "img/animals/" + animal + ".png");
+
+            if (animal == randomAnimal) {
+                ans = true;
+            } else {
+                ans = false;
+            }
+        }
+
+
+
+
+    }
+
+
+    $("#wrong").click(function() {
+
+        if (ans) {
+            wrongSound.play();
+            $("#shadowRed").show();
+            $("#shadowRed").animate({
+                opacity: 0.5,
+                opacity: 0,
+                opacity: 0.5,
+            }, 1000, function() {
+                $("#shadowRed").hide();
+                score--;
+                $("#score > h1").text(score);
+
+                changeAnimal();
+            });
+        } else {
+            correctSound.play();
+            $("#shadowGreen").show();
+            $("#shadowGreen").animate({
+                opacity: 0.5,
+                opacity: 0,
+                opacity: 0.5,
+            }, 1000, function() {
+                $("#shadowGreen").hide();
+                score++;
+
+                $("#score > h1").text(score);
+
+                animalsArr.splice(randomT, 1);
+                changeAnimal();
+            });
+        }
+
+
+    });
+
+    $("#true").click(function() {
+
+        if (ans) {
+            correctSound.play();
+            $("#shadowGreen").show();
+            $("#shadowGreen").animate({
+                opacity: 0.5,
+                opacity: 0,
+                opacity: 0.5,
+            }, 1000, function() {
+                $("#shadowGreen").hide();
+                score++;
+                $("#score > h1").text(score);
+                animalsArr.splice(randomT, 1);
+
+                changeAnimal();
+            });
+
+        } else {
+            wrongSound.play();
+            $("#shadowRed").show();
+            $("#shadowRed").animate({
+                opacity: 0.5,
+                opacity: 0,
+                opacity: 0.5,
+            }, 1000, function() {
+                $("#shadowRed").hide();
+                score--;
+                $("#score > h1").text(score);
+
+                changeAnimal();
+            });
+        }
+
+
+    });
+
+    $("#image").click(function() {
+        read(randomAnimal);
     });
 
 
-    $("#display").click(function() {
-        //start speaking
-        read('Hello, My name is Beto. And I am a robot. what is your name? Click anywhere to start talking to me.');
-        console.log('Hello, My name is Beto. And I am a robot. what is your name?');
-
-        $("#display").hide();
-    });
 
 
 
-    recognition.onstart = function() {
-        console.log('You can speak now!!!');
-    }
-
-    recognition.onresult = function(event) {
-        var text = event.results[0][0].transcript;
-        text = text.slice(0, -1).toLowerCase();
-        console.log(text);
-        speak(text);
-    }
-
-    recognition.onend = function() {
-        startTalkingAnimation();
-    }
+    //This is read part
 
     function read(text) {
-
+        var speech = new SpeechSynthesisUtterance();
+        speech.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == "Microsoft Zira - English (United States)" })[0];
+        speech.lang = 'en-US';
+        speech.pitch = 1.8;
         speech.text = text;
-        //speech.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == "Microsoft Zira - English (United States)" })[0];
-        //speech.lang = 'en-US';
-        //speech.pitch = 1.8;
 
-        console.log(speech.voice);
         window.speechSynthesis.speak(speech);
 
         speech.onstart = function() {
             console.log("s");
-            startTalkingAnimation();
         };
 
         speech.onend = function() {
             console.log("e");
-            stopTalkingAnimation();
-
-            $(document).click(function() {
-                recognition.start();
-                console.log('start recording...');
-            });
         };
 
     }
-
-    function speak(text) {
-
-        speech.text = text;
-        //speech.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == "Microsoft Zira - English (United States)" })[0];
-        //speech.lang = 'en-US';
-        //speech.pitch = 1.8;
-
-        if (text.includes('time')) {
-            speech.text = 'It is ' + new Date().getHours() + " " + new Date().getMinutes() + " right now";
-        } else if (text.includes('name')) {
-            var newText = text.replace('my name is', '');
-            speech.text = 'Nice to meet you ' + newText;
-        } else if (text.includes('love me')) {
-            speech.text = 'Of course, not! You piece of junk!';
-        }
-        window.speechSynthesis.speak(speech);
-
-
-    }
-
-
-    function startTalkingAnimation() {
-        $(".light-shadow").show();
-        $("#eyes").show();
-        $("#mouth").show();
-        $("#everything").css("animation", " head-rotation 7s infinite");
-        $("#dots").hide();
-    }
-
-    function stopTalkingAnimation() {
-        $("#eyes").hide();
-        $("#mouth").hide();
-        $("#everything").css("animation", "head-rotation 7s 1");
-
-        $("#dots").show();
-    }
-
-
-
-
 
 
 });
