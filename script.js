@@ -11,19 +11,25 @@ for (i = 0; i < allAnimals.length; i++) {
     animalsArr.push(allAnimals[i]);
 }
 
+//sounds
+var btnSound = new Audio('sounds/buttonsound.mp3');
+var wrongSound = new Audio('sounds/wrongsound.mp3');
+var correctSound = new Audio('sounds/correctsound.mp3');
+var losesound = new Audio('sounds/losesound.mp3');
+var winsound = new Audio('sounds/winsound.mp3');
+var bee = new Audio('sounds/bee.mp3');
 
-$(document).ready(function() {
 
-    var btnSound = new Audio('sounds/buttonsound.mp3');
-    var wrongSound = new Audio('sounds/wrongsound.mp3');
-    var correctSound = new Audio('sounds/correctsound.mp3');
-    var losesound = new Audio('sounds/losesound.mp3');
-    var winsound = new Audio('sounds/winsound.mp3');
+$(window).on("load", function(e) {
+
+    $('#loading').addClass("hide");
+
+
 
     //timer
 
     var timer;
-    var time = 30;
+    var time = 60;
     var timeLeft = time; // seconds
 
 
@@ -127,7 +133,8 @@ $(document).ready(function() {
             var randomR = Math.floor(Math.random() * allAnimals.length) + 0;
             randomAnimal = allAnimals[randomR];
 
-            read(randomAnimal);
+            //read(randomAnimal);
+            bee.play();
             $("#image").attr("src", "img/animals/" + animal + ".png");
 
             if (animal == randomAnimal) {
@@ -218,7 +225,8 @@ $(document).ready(function() {
     });
 
     $("#image").click(function() {
-        read(randomAnimal);
+        //read(randomAnimal);
+        bee.play();
     });
 
 
@@ -226,25 +234,25 @@ $(document).ready(function() {
 
 
     //This is read part
+    /*
+        function read(text) {
+          var speech = new SpeechSynthesisUtterance();
+            speech.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == "Microsoft Zira - English (United States)" })[0];
+            speech.lang = 'en-US';
+            speech.pitch = 1.8;
+            speech.text = text;
 
-    function read(text) {
-        var speech = new SpeechSynthesisUtterance();
-        speech.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == "Microsoft Zira - English (United States)" })[0];
-        speech.lang = 'en-US';
-        speech.pitch = 1.8;
-        speech.text = text;
+            window.speechSynthesis.speak(speech);
 
-        window.speechSynthesis.speak(speech);
+            speech.onstart = function() {
+                console.log("s");
+            };
 
-        speech.onstart = function() {
-            console.log("s");
-        };
+            speech.onend = function() {
+                console.log("e");
+            };
 
-        speech.onend = function() {
-            console.log("e");
-        };
-
-    }
-
+        }
+    */
 
 });
