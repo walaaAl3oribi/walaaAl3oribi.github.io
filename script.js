@@ -1,10 +1,11 @@
-var allAnimals = ["elephant", "fish", "goat", "horse", "jellyfish", "ladybug", "sheep", "lion", "mouse", "owl", "pig", "rabbit", "tiger", "whale", "worm", "zebra", "rhinoceros", "kangaroo", "giraffe", "snail", "fox"];
+var allAnimals = ["ant", "bear", "bee", "bird", "butterfly", "cat", "chicken", "cow", "crocodile", "dog", "donkey", "duck", "elephant", "fish", "goat", "horse", "jellyfish", "ladybug", "sheep", "lion", "mouse", "owl", "pig", "rabbit", "tiger", "whale", "worm", "zebra", "rhinoceros", "kangaroo", "giraffe", "snail", "fox"];
 var animalsArr = [];
 var score = 0;
 var ans;
 
 var randomT;
 var randomAnimal;
+var animalName;
 
 
 for (i = 0; i < allAnimals.length; i++) {
@@ -23,7 +24,7 @@ $(window).on("load", function(e) {
     var correctSound = new Audio('sounds/correctsound.mp3');
     var losesound = new Audio('sounds/losesound.mp3');
     var winsound = new Audio('sounds/winsound.mp3');
-    var bee = new Audio('sounds/bee.mp3');
+    //var bee = new Audio('sounds/bee.mp3');
 
     //timer
 
@@ -134,9 +135,11 @@ $(window).on("load", function(e) {
             randomAnimal = allAnimals[randomR];
 
             //read(randomAnimal);
-            bee.play();
+            animalName = new Audio('sounds/' + allAnimals[randomR] + '.mp3');
+            animalName.play();
 
-            bee.onended = function() {
+
+            animalName.onended = function() {
                 $("#control").removeClass("hide");
             };
 
@@ -230,34 +233,10 @@ $(window).on("load", function(e) {
     });
 
     $("#image").click(function() {
-        //read(randomAnimal);
-        bee.play();
+        animalName.play();
     });
 
 
 
-
-
-    //This is read part
-    /*
-        function read(text) {
-          var speech = new SpeechSynthesisUtterance();
-            speech.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == "Microsoft Zira - English (United States)" })[0];
-            speech.lang = 'en-US';
-            speech.pitch = 1.8;
-            speech.text = text;
-
-            window.speechSynthesis.speak(speech);
-
-            speech.onstart = function() {
-                console.log("s");
-            };
-
-            speech.onend = function() {
-                console.log("e");
-            };
-
-        }
-    */
 
 });

@@ -215,6 +215,7 @@
     height: 100%;
     width: 100%;
     background-color: #307e29;
+    z-index: 200;
 }
 
 .cs-loader-inner {
