@@ -73,7 +73,7 @@
 
 #image {
     grid-area: main;
-    align-self: end;
+    align-self: center;
     justify-self: center;
     height: auto;
     width: 100%;
@@ -92,8 +92,9 @@
     height: 20vh;
     width: 100%;
     bottom: 0;
-    grid-template-columns: auto 20vw auto;
-    grid-template-areas: "wrong . true";
+    grid-template-columns: auto auto;
+    grid-template-areas: "wrong true";
+    align-content: space-around;
 }
 
 #true {
@@ -175,6 +176,7 @@
     grid-area: main;
     align-self: center;
     justify-self: center;
+    width: 100%;
 }
 
 #homepage>#start {
