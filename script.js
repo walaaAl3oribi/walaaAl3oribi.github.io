@@ -11,20 +11,19 @@ for (i = 0; i < allAnimals.length; i++) {
     animalsArr.push(allAnimals[i]);
 }
 
-//sounds
-var btnSound = new Audio('sounds/buttonsound.mp3');
-var wrongSound = new Audio('sounds/wrongsound.mp3');
-var correctSound = new Audio('sounds/correctsound.mp3');
-var losesound = new Audio('sounds/losesound.mp3');
-var winsound = new Audio('sounds/winsound.mp3');
-var bee = new Audio('sounds/bee.mp3');
 
 
 $(window).on("load", function(e) {
 
     $('#loading').addClass("hide");
 
-
+    //sounds
+    var btnSound = new Audio('sounds/buttonsound.mp3');
+    var wrongSound = new Audio('sounds/wrongsound.mp3');
+    var correctSound = new Audio('sounds/correctsound.mp3');
+    var losesound = new Audio('sounds/losesound.mp3');
+    var winsound = new Audio('sounds/winsound.mp3');
+    var bee = new Audio('sounds/bee.mp3');
 
     //timer
 
@@ -33,14 +32,15 @@ $(window).on("load", function(e) {
     var timeLeft = time; // seconds
 
 
+
+
     $("#start").click(function() {
         btnSound.play();
+        $("#gamepage").removeClass("hide");
 
         setTimeout(
             function() {
                 $("#homepage").addClass("hide");
-                $("#control").removeClass("hide");
-                $("#gamepage").removeClass("hide");
 
                 setTimeout(
                     function() {
@@ -65,7 +65,6 @@ $(window).on("load", function(e) {
                     }, 1000);
 
             }, 1000);
-
 
 
 
@@ -108,16 +107,17 @@ $(window).on("load", function(e) {
 
     function changeAnimal() {
 
-        if (animalsArr.length === 0) {
+        $("#control").addClass("hide");
 
+        if (animalsArr.length === 0) {
 
             if (score > 0) {
                 winsound.play();
             } else {
                 losesound.play();
             }
+
             $('#scorepage>h1').text("score = " + score);
-            //alert("score = " + score);
 
             $("#scorepage").removeClass("hide");
             $("#homepage").addClass("hide");
@@ -135,6 +135,11 @@ $(window).on("load", function(e) {
 
             //read(randomAnimal);
             bee.play();
+
+            bee.onended = function() {
+                $("#control").removeClass("hide");
+            };
+
             $("#image").attr("src", "img/animals/" + animal + ".png");
 
             if (animal == randomAnimal) {
