@@ -29,7 +29,7 @@ $(window).on("load", function(e) {
     //timer
 
     var timer;
-    var time = 60;
+    var time = 30;
     var timeLeft = time; // seconds
 
 
@@ -37,11 +37,13 @@ $(window).on("load", function(e) {
 
     $("#start").click(function() {
         btnSound.play();
-        $("#gamepage").removeClass("hide");
+
 
         setTimeout(
             function() {
+
                 $("#homepage").addClass("hide");
+                $("#gamepage").removeClass("hide");
 
                 setTimeout(
                     function() {
