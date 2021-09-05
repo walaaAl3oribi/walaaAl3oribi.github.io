@@ -26,6 +26,8 @@ $(window).on("load", function(e) {
     var winsound = new Audio('sounds/winsound.mp3');
     //var bee = new Audio('sounds/bee.mp3');
 
+    //soundEffect.autoplay = true;
+
     //timer
 
     var timer;
@@ -92,6 +94,7 @@ $(window).on("load", function(e) {
 
     // What to do when the timer runs out
     function gameOver() {
+
         // This cancels the setInterval, so the updateTimer stops getting called
         clearInterval(timer);
 
@@ -122,22 +125,38 @@ $(window).on("load", function(e) {
 
             $('#scorepage>h1').text("score = " + score);
 
+
             $("#scorepage").removeClass("hide");
-            $("#homepage").addClass("hide");
             $("#control").addClass("hide");
+            $("#homepage").addClass("hide");
             $("#gamepage").addClass("hide");
 
         } else {
+
             randomT = Math.floor(Math.random() * animalsArr.length) + 0;
             var animal = animalsArr[randomT];
+            var randomR;
 
-            console.log(animalsArr);
+            var c = Math.floor(Math.random() * 2) + 0;
+            console.log(c);
 
-            var randomR = Math.floor(Math.random() * allAnimals.length) + 0;
+            if (c === 0) {
+                // correct
+                randomR = randomT;
+
+            } else {
+                // wrong
+                randomR = Math.floor(Math.random() * allAnimals.length) + 0;
+            }
+
+
+
             randomAnimal = allAnimals[randomR];
 
-            //read(randomAnimal);
+
+
             animalName = new Audio('sounds/' + allAnimals[randomR] + '.mp3');
+            animalName.autoplay = true;
             animalName.play();
 
 
@@ -189,7 +208,7 @@ $(window).on("load", function(e) {
 
                 $("#score > h1").text(score);
 
-                animalsArr.splice(randomT, 1);
+                //animalsArr.splice(randomT, 1);
                 changeAnimal();
             });
         }
@@ -210,7 +229,7 @@ $(window).on("load", function(e) {
                 $("#shadowGreen").hide();
                 score++;
                 $("#score > h1").text(score);
-                animalsArr.splice(randomT, 1);
+                //animalsArr.splice(randomT, 1);
 
                 changeAnimal();
             });
