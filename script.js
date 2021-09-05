@@ -133,6 +133,8 @@ $(window).on("load", function(e) {
 
         } else {
 
+
+
             randomT = Math.floor(Math.random() * animalsArr.length) + 0;
             var animal = animalsArr[randomT];
             var randomR;
@@ -156,8 +158,8 @@ $(window).on("load", function(e) {
 
 
             animalName = new Audio('sounds/' + allAnimals[randomR] + '.mp3');
-            animalName.autoplay = true;
             animalName.play();
+            $("#image").click();
 
 
             animalName.onended = function() {
@@ -256,6 +258,8 @@ $(window).on("load", function(e) {
     $("#image").click(function() {
         animalName.play();
     });
+
+
 
 
 
